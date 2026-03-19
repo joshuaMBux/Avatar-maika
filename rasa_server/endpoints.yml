@@ -1,0 +1,4 @@
+
+# Si más adelante usas acciones personalizadas, configura aquí el action_server
+# action_endpoint:
+#   url: "http://localhost:5055/webhook"

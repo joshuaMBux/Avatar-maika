@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../services/rasa_service.dart';
 import '../services/stt_service.dart';
@@ -17,16 +16,43 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextToSpeechService tts = TextToSpeechService();
 
   bool isSpeaking = false;
+  String currentEmotion = 'neutral';
   final TextEditingController _ctrl = TextEditingController();
   String botReply = "¡Hola! Soy tu avatar anime 🌸 ¿En qué te ayudo?";
 
   Future<void> _send(String text) async {
     if (text.trim().isEmpty) return;
-    setState(() => isSpeaking = true);
-    final reply = await rasa.sendMessage(text);
-    setState(() => botReply = reply);
-    await tts.speak(reply);
-    setState(() => isSpeaking = false);
+
+    // Comando de prueba manual: /test emocion
+    if (text.startsWith('/test ')) {
+      String emo = text.replaceFirst('/test ', '').trim();
+      setState(() {
+        currentEmotion = emo;
+        botReply = "Cambiando a emoción: $emo";
+      });
+      _ctrl.clear();
+      return;
+    }
+
+    // Limpiar campo de texto
+    _ctrl.clear();
+
+    setState(() {
+      isSpeaking = true;
+    });
+
+    final response = await rasa.sendMessage(text);
+
+    setState(() {
+      botReply = response.text;
+      currentEmotion = response.emotion;
+    });
+
+    await tts.speak(response.text);
+
+    setState(() {
+      isSpeaking = false;
+    });
   }
 
   Future<void> _voice() async {
@@ -49,37 +75,67 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 8),
-                AvatarWidget(isSpeaking: isSpeaking),
+                AvatarWidget(
+                  isSpeaking: isSpeaking,
+                  emotion: currentEmotion,
+                ),
                 const SizedBox(height: 12),
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.pink.shade50,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Text(
                     botReply,
-                    style: const TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18, color: Colors.black87),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: _ctrl,
-                        decoration: const InputDecoration(
-                          labelText: "Escribe tu mensaje...",
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          hintText: "Escribe tu mensaje...",
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
                         ),
                         onSubmitted: _send,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: () => _send(_ctrl.text), child: const Text("Enviar")),
-                    const SizedBox(width: 8),
-                    ElevatedButton(onPressed: _voice, child: const Text("🎤 Hablar")),
+                    const SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Colors.pinkAccent,
+                      child: IconButton(
+                        icon: const Icon(Icons.send, color: Colors.white),
+                        onPressed: () => _send(_ctrl.text),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Colors.blueAccent,
+                      child: IconButton(
+                        icon: const Icon(Icons.mic, color: Colors.white),
+                        onPressed: _voice,
+                      ),
+                    ),
                   ],
                 ),
               ],

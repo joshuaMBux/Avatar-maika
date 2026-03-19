@@ -1,0 +1,68 @@
+
+version: "3.1"
+nlu:
+- intent: greet
+  examples: |
+    - hola
+    - buenas
+    - qué tal
+    - hola, ¿cómo estás?
+    - buen día
+    - buenas tardes
+    - holas
+    - holis
+- intent: goodbye
+  examples: |
+    - adiós
+    - hasta luego
+    - chau
+    - nos vemos
+    - cuidate
+    - me voy
+- intent: mood_good
+  examples: |
+    - me siento feliz
+    - estoy bien
+    - genial
+    - súper bien
+    - muy bien
+    - ando contento
+- intent: mood_bad
+  examples: |
+    - me siento triste
+    - mal
+    - cansado
+    - estoy bajoneado
+    - ando mal
+    - no me siento bien
+- intent: ask_help
+  examples: |
+    - ¿qué puedes hacer?
+    - ¿cómo funcionas?
+    - ¿qué sabes hacer?
+    - ayúdame
+    - qué opciones tienes
+    - en qué me puedes ayudar
+- intent: bot_challenge
+  examples: |
+    - ¿eres un robot?
+    - ¿eres una ia?
+    - ¿eres real?
+    - bot
+    - eres tonta
+- intent: compliment
+  examples: |
+    - ¡eres la mejor ia del mundo!
+    - qué inteligente eres
+    - me gustas mucho
+    - eres genial
+    - eres mi mejor amiga
+    - te quiero mucho
+    - qué bien te ves
+- intent: user_birthday
+  examples: |
+    - hoy es mi cumpleaños
+    - es mi cumple
+    - ¡hoy cumplo años!
+    - es mi día especial
+    - hoy es mi aniversario de nacimiento

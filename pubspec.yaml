@@ -21,3 +21,4 @@ flutter:
   assets:
     - assets/avatar_idle.png
     - assets/avatar_talk.png
+    - assets/emociones/

@@ -9,7 +9,7 @@ class TextToSpeechService {
     // Algunas plataformas web ignoran setVoice si no existe la voz exacta
     await _tts.setVoice({"name": "es-MX", "locale": "es-MX"});
     await _tts.setPitch(1.08);
-    await _tts.setSpeechRate(0.95);
+    await _tts.setSpeechRate(0.5); // Velocidad reducida (antes era 0.95)
     await _tts.speak(text);
   }
 }

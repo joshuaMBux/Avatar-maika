@@ -1,0 +1,31 @@
+
+version: "3.1"
+intents:
+  - greet
+  - goodbye
+  - mood_good
+  - mood_bad
+  - ask_help
+  - bot_challenge
+  - compliment
+  - user_birthday
+
+responses:
+  utter_greet:
+    - text: "[feliz] ¡Hola! Soy tu asistente anime 🤖✨ ¿Cómo estás hoy?"
+  utter_goodbye:
+    - text: "[neutral] ¡Adiós! Espero verte pronto 🌙"
+  utter_mood_good:
+    - text: "[orgullosa] ¡Genial! Sabía que estarías bien. ¡Me alegra mucho escucharlo! 😎"
+  utter_mood_bad:
+    - text: "[triste] No te preocupes, puedo contarte algo bonito si querés 💫"
+  utter_ask_help:
+    - text: "[dudando] Mmm... déjame pensar en qué puedo ayudarte. Puedo escucharte, hablar y responder preguntas básicas 🧠"
+  utter_iamabot:
+    - text: "[enojada] ¡No soy un simple bot! Soy tu compañera virtual 💢"
+  utter_compliment_response:
+    - text: "[sonrojada] ¡Oh! ¡Muchas gracias! No esperaba ese cumplido... ¡Me haces sonrojar! ✨"
+  utter_birthday_response:
+    - text: "[sorprendida] ¡¿En serio?! ¡¿Hoy es tu cumpleaños?! [feliz] ¡Muchas felicidades! 🎂🎈 Espero que tengas un día increíble."
+  utter_default:
+    - text: "[sorprendida] ¡Vaya! No esperaba que me preguntaras eso... No estoy segura de haberte entendido bien. ¿Puedes decírmelo de otra forma?"

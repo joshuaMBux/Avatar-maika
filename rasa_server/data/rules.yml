@@ -1,0 +1,46 @@
+version: "3.1"
+rules:
+  - rule: responder saludo
+    steps:
+      - intent: greet
+      - action: utter_greet
+
+  - rule: responder despedida
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: responder estado de ánimo positivo
+    steps:
+      - intent: mood_good
+      - action: utter_mood_good
+
+  - rule: responder estado de ánimo negativo
+    steps:
+      - intent: mood_bad
+      - action: utter_mood_bad
+
+  - rule: responder solicitud de ayuda
+    steps:
+      - intent: ask_help
+      - action: utter_ask_help
+
+  - rule: responder reto del bot (enojo)
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: responder a un cumplido
+    steps:
+      - intent: compliment
+      - action: utter_compliment_response
+
+  - rule: responder al cumpleaños del usuario
+    steps:
+      - intent: user_birthday
+      - action: utter_birthday_response
+
+  - rule: respuesta por defecto (fallback)
+    steps:
+      - intent: nlu_fallback
+      - action: utter_default
