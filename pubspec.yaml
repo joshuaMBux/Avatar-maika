@@ -1,7 +1,8 @@
-
 name: flutter_client
-description: Avatar anime IA (web) con Rasa + STT/TTS
+description: Avatar anime IA con Rasa y Emociones
 publish_to: "none"
+version: 1.0.0+1
+
 environment:
   sdk: ">=3.4.0 <4.0.0"
 
@@ -9,12 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.1.0
-  flutter_tts: ^3.8.2
-  speech_to_text: ^6.5.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true

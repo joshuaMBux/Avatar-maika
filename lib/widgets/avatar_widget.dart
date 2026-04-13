@@ -63,10 +63,19 @@ class _AvatarWidgetState extends State<AvatarWidget>
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 300),
       opacity: opacity,
-      child: Image.asset(
-        _getAvatarAsset(),
-        height: 280,
-        fit: BoxFit.contain,
+      child: AnimatedSwitcher(
+        duration: const Duration(
+            milliseconds: 500), // Transición suave entre emociones
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        child: Image.asset(
+          _getAvatarAsset(),
+          key: ValueKey(widget
+              .emotion), // Clave para que AnimatedSwitcher detecte el cambio
+          height: 280,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }

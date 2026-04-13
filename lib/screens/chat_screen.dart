@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/rasa_service.dart';
-import '../services/stt_service.dart';
-import '../services/tts_service.dart';
 import '../widgets/avatar_widget.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -12,10 +10,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final RasaService rasa = RasaService();
-  final SpeechToTextService stt = SpeechToTextService();
-  final TextToSpeechService tts = TextToSpeechService();
 
   bool isSpeaking = false;
+  bool isWaitingForBot = false;
   String currentEmotion = 'neutral';
   final TextEditingController _ctrl = TextEditingController();
   String botReply = "¡Hola! Soy tu avatar anime 🌸 ¿En qué te ayudo?";
@@ -34,39 +31,34 @@ class _ChatScreenState extends State<ChatScreen> {
       return;
     }
 
-    // Limpiar campo de texto
     _ctrl.clear();
-
     setState(() {
-      isSpeaking = true;
+      isWaitingForBot = true;
+      isSpeaking = false;
+      botReply = "...";
     });
 
     final response = await rasa.sendMessage(text);
 
     setState(() {
+      isWaitingForBot = false;
       botReply = response.text;
       currentEmotion = response.emotion;
+      isSpeaking = true; // Simulación visual de hablar
     });
 
-    await tts.speak(response.text);
-
-    setState(() {
-      isSpeaking = false;
+    // Pequeña pausa visual de "habla"
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() => isSpeaking = false);
+      }
     });
-  }
-
-  Future<void> _voice() async {
-    final heard = await stt.listenOnce();
-    if (heard != null && heard.isNotEmpty) {
-      _ctrl.text = heard;
-      await _send(heard);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('🤖 Avatar IA Anime (Web)')),
+      appBar: AppBar(title: const Text('🤖 Avatar IA Anime')),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
@@ -94,11 +86,16 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ],
                   ),
-                  child: Text(
-                    botReply,
-                    style: const TextStyle(fontSize: 18, color: Colors.black87),
-                    textAlign: TextAlign.center,
-                  ),
+                  child: isWaitingForBot
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: Colors.pinkAccent))
+                      : Text(
+                          botReply,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black87),
+                          textAlign: TextAlign.center,
+                        ),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -126,14 +123,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.send, color: Colors.white),
                         onPressed: () => _send(_ctrl.text),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    CircleAvatar(
-                      backgroundColor: Colors.blueAccent,
-                      child: IconButton(
-                        icon: const Icon(Icons.mic, color: Colors.white),
-                        onPressed: _voice,
                       ),
                     ),
                   ],

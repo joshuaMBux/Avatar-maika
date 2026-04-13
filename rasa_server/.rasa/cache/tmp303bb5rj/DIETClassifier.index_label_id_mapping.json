@@ -1,0 +1,10 @@
+{
+  "0": "ask_help",
+  "1": "bot_challenge",
+  "2": "compliment",
+  "3": "goodbye",
+  "4": "greet",
+  "5": "mood_bad",
+  "6": "mood_good",
+  "7": "user_birthday"
+}
